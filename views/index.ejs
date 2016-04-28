@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<title>Quotations</title>
+<link rel='stylesheet' href='/stylesheets/reset.css'>
+<link rel='stylesheet' href='/stylesheets/base.css'>
+<link rel='stylesheet' href='/stylesheets/style.css'>
+<style>
+.container:before {
+  background-image: url(<%= random.image_path %>);
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="container-inner">
+    <div class="header"></div>
+    <div class="contents">
+      <div class="contents-inner">
+        <div class="question">
+          <p class="question-label">あなたの今の気持ちは？</p>
+          <ul class="question-list clearfix">
+            <% for (var i = 0; i < emotions.length; i++) { %>
+              <li class="question-item" data-emotion-id="<%= emotions[i].emotion_id %>"><%= emotions[i].emotion %></li>
+            <% } %>
+          </ul>
+        </div>
+        <div class="answer" style="display: none;">
+          <div class="answer-inner">
+            <img src="" class="keyvisual">
+            <blockquote>
+              <p class="blockquote"></p>
+            </blockquote>
+            <div class="back">
+              <span class="back-icon"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">created by @hzk</div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script>
+$(function() {
+  var $questionItem = $('.question-item');
+  var $blockquote = $('.blockquote');
+  var $backIcon = $('.back-icon');
+  var $keyvisual = $('.keyvisual');
+  var $answer = $('.answer');
+  var witticisms;
+
+  $.ajax({
+    url: '/witticisms'
+  })
+  .done(function(data) {
+    witticisms = data;
+  });
+
+  $questionItem.on('click', function() {
+    var emotionId = $(this).data('emotion-id');
+    var witticism = witticisms.filter(function(item) {
+      return item.emotion_id === emotionId;
+    }).sort(function() {
+      return Math.random() - 0.5;
+    })[0];
+    $keyvisual.attr({
+      'src': witticism.image_path
+    });
+    $blockquote.text(witticism.witticism);
+    $answer.fadeIn();
+  });
+
+  $backIcon.click(function() {
+    $answer.fadeOut();
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<title>Quotations</title>
+<link rel='stylesheet' href='/stylesheets/reset.css'>
+<link rel='stylesheet' href='/stylesheets/base.css'>
+<link rel='stylesheet' href='/stylesheets/style.css'>
+</head>
+<body>
+<form action="/img_send" method="post">
+  <input type="file" name="image_path" class="input-file">
+  <br>
+  <textarea name="witticism" cols="20" rows="8"></textarea>
+  <br>
+  <select name="emotion_id">
+    <% for (var i = 0; i < emotions.length; i++) { %>
+      <option value="<%= emotions[i].emotion_id %>"><%= emotions[i].emotion %></option>
+    <% } %>
+  </select>
+  <br>
+  <input type="submit">
+  <br>
+  <img class="preview" src="">
+</form>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script>
+$(function() {
+  $('.input-file').on('change', function(e) {
+    if (!e.target.files.length) {
+      return false;
+    }
+    var file = e.target.files[0];
+    var fileReader = new FileReader();
+    var dataUri = undefined;
+    fileReader.readAsDataURL(file);
+    fileReader.onload = function(event) {
+      dataUri = event.target.result;
+      $(".preview").attr({
+        "src": dataUri
+      });
+    };
+  });
+});
+</script>
+</body>
+</html>
