@@ -1,5 +1,5 @@
 {
-  "name": "witticism",
+  "name": "quotations",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -18,5 +18,17 @@
   },
   "devDependencies": {
     "nodemon": "^1.8.1"
-  }
+  },
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/8zk/Quotations.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/8zk/Quotations/issues"
+  },
+  "homepage": "https://github.com/8zk/Quotations#readme",
+  "description": ""
 }
